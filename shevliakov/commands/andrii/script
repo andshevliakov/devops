@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+#/ command: shevliakov:andrii: "list colorful options"
+#/ usage: rerun shevliakov:andrii [options]
+#/ rerun-variables: RERUN, RERUN_VERSION, RERUN_MODULES, RERUN_MODULE_DIR
+#/ option-variables: 
+
+. "$RERUN_MODULE_DIR/lib/functions.sh" "andrii" || { 
+  echo >&2 "Failed loading function library." ; exit 1 ; 
+}
+
+set -o errexit -o nounset -o pipefail
+
+rerun_options_parse "$@"
+
+# Command implementation
+# ----------------------
+
+for ENVNAME in $(printenv | sed 's;=.*;;')
+do
+  echo "$(tput setaf 1)$ENVNAME $(tput setaf 2) $(printenv $ENVNAME)"
+done
+
+# Done. Exit with last command exit status.
+exit $?
+
